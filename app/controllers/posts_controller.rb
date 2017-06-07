@@ -5,6 +5,19 @@ class PostsController < ApplicationController
     render("posts/index.html.erb")
   end
 
+  def my_likes
+  @posts = current_user.liked_posts
+end
+
+def my_posts
+  self_connection=Connection.new
+  self_connection.sender_id = current_user.id
+  self_connection.receiver_id = current_user.id
+  self_connection.request_accepted = true
+  self_connection.save
+  @posts = current_user.timeline_posts
+end
+
   def show
     @post = Post.find(params[:id])
 
@@ -22,6 +35,7 @@ class PostsController < ApplicationController
 
     @post.body = params[:body]
     @post.user_id = params[:user_id]
+    @post.randnum = rand(24)
 
     save_status = @post.save
 
@@ -43,7 +57,7 @@ class PostsController < ApplicationController
 
     @post.body = params[:body]
     @post.user_id = params[:user_id]
-
+    @post.randnum = rand(24)
     save_status = @post.save
 
     if save_status == true

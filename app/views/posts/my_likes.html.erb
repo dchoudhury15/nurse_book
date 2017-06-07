@@ -16,15 +16,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
-          <a href="/users/<%= post.user_id %>">
-            <% if post.user_id != current_user.id %>
-              <!-- true -->
-              <%= post.user.username %>
-              <% else %>
-              me
-            <% end %>
-
-          </a>
+          <a href="/users/<%= post.user_id %>"><%= post.user.username %></a>
           <small>
             <%= time_ago_in_words(post.updated_at) %> ago
           </small>

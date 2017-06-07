@@ -24,10 +24,13 @@ class ConnectionsController < ApplicationController
     @connection.receiver_id = params[:receiver_id]
     @connection.request_accepted = params[:request_accepted]
 
+
+
     save_status = @connection.save
 
+
     if save_status == true
-      redirect_to("/connections/#{@connection.id}", :notice => "Connection created successfully.")
+      redirect_to("/users/#{current_user.id}")
     else
       render("connections/new.html.erb")
     end
@@ -49,7 +52,7 @@ class ConnectionsController < ApplicationController
     save_status = @connection.save
 
     if save_status == true
-      redirect_to("/connections/#{@connection.id}", :notice => "Connection updated successfully.")
+      redirect_to("/users/#{current_user.id}")
     else
       render("connections/edit.html.erb")
     end

@@ -1,4 +1,21 @@
 Rails.application.routes.draw do
+  # Routes for the Like resource:
+  # CREATE
+  get "/likes/new", :controller => "likes", :action => "new"
+  post "/create_like", :controller => "likes", :action => "create"
+
+  # READ
+  get "/likes", :controller => "likes", :action => "index"
+  get "/likes/:id", :controller => "likes", :action => "show"
+
+  # UPDATE
+  get "/likes/:id/edit", :controller => "likes", :action => "edit"
+  post "/update_like/:id", :controller => "likes", :action => "update"
+
+  # DELETE
+  get "/delete_like/:id", :controller => "likes", :action => "destroy"
+  #------------------------------
+
   # Routes for the Comment resource:
   # CREATE
   get "/comments/new", :controller => "comments", :action => "new"
@@ -16,6 +33,8 @@ Rails.application.routes.draw do
   get "/delete_comment/:id", :controller => "comments", :action => "destroy"
   #------------------------------
 
+
+  root "posts#my_posts"
   # Routes for the Post resource:
   # CREATE
   get "/posts/new", :controller => "posts", :action => "new"
@@ -23,6 +42,7 @@ Rails.application.routes.draw do
 
   # READ
   get "/posts", :controller => "posts", :action => "index"
+  get "/my_posts", :controller => "posts", :action => "my_posts"
   get "/posts/:id", :controller => "posts", :action => "show"
 
   # UPDATE
@@ -69,4 +89,11 @@ Rails.application.routes.draw do
 
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  # Routes for the User resource:
+  # READ
+  get "/users", :controller => "users", :action => "index"
+
+  get "/users/:id", :controller => "users", :action => "show"
+  get "/my_follows", :controller => "users", :action => "my_friends"
+  post "/go_to_user", :controller => "users", :action => "go_to_user"
 end

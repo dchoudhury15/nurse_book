@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+
+
+    <div class="col-md-2">
+      <form action="/go_to_user" method="post">
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      <input list ="follows" name="follows">
+
+      <datalist id = "follows">
+        <% @users_all.each do |user| %>
+        <option value =  "<%= user.username %>">
+        <%end %>
+      </datalist>
+
+      <button name="add" type="submit"> Go to User </button>
+    </form>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+
+
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>Follow Request By</th>
+            <th>Follow Request Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+          <% if user != current_user %>
+          <% connect = Connection.find_by(:sender => current_user.id, :receiver => user.id) %>
+
+          <tr>
+            <td><a href="/users/<%= user.id %>">  <%= user.username %> </a></td>
+
+            <td>
+              <% if connect.request_accepted == true %>
+              Follow request accepted
+              <% else %>
+              Follow request not accepted
+              <% end %>
+              <!-- true -->
+            </td>
+
+          </tr>
+          <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</div>

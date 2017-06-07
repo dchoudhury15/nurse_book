@@ -5,24 +5,29 @@
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
-      <dt>Body</dt>
+      <dt>User</dt>
+      <dd><%= @post.user.username %></dd>
+
+
+
+      <dt>Giphy Searched</dt>
       <dd><%= @post.body %></dd>
 
-      <dt>User</dt>
-      <dd><%= @post.user_id %></dd>
 
     </dl>
-
     <div class="btn-group btn-group-justified">
       <a href="/posts" class="btn btn-primary">
         Back
       </a>
+      <% if current_user==@post.user %>
+
       <a href="/posts/<%= @post.id %>/edit" class="btn btn-warning">
         Edit
       </a>
       <a href="/delete_post/<%= @post.id %>" class="btn btn-danger" rel="nofollow">
         Delete
       </a>
+    <% end %>
     </div>
   </div>
 </div>

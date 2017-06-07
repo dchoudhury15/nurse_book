@@ -1,6 +1,6 @@
 <!-- Validation failure messages -->
-<% if @post.errors.any? %>
-  <% @post.errors.full_messages.each do |message| %>
+<% if @like.errors.any? %>
+  <% @like.errors.full_messages.each do |message| %>
     <div class="alert alert-dismissable alert-danger">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <%= message %>
@@ -9,36 +9,38 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Add Post</h3>
+  <h3>Add Like</h3>
 </div>
 
 <div class="row">
   <div class="col-md-12">
-    <form action="/create_post" method="post">
+    <form action="/create_like" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
-      <!-- Label and input for body -->
-      <div class="form-group">
-        <label for="body" class="control-label">
-          Giphy Statement
-        </label>
-
-        <textarea id="body" name="body" placeholder="Body" class="form-control" rows="3"><%= @post.body %></textarea>
-      </div>
-
       <!-- Label and input for user_id -->
       <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
 
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @like.user_id %>">
+      </div>
 
-        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id %>">
+      <!-- Label and input for post_id -->
+      <div class="form-group">
+        <label for="post_id" class="control-label">
+          Post
+        </label>
+
+        <input type="text" id="post_id" name="post_id" placeholder="Post" class="form-control" value="<%= @like.post_id %>">
       </div>
 
       <button class="btn btn-success">
-        Create Post
+        Create Like
       </button>
       or
-      <a href="/posts">Cancel</a>
+      <a href="/likes">Cancel</a>
     </form>
   </div>
 </div>

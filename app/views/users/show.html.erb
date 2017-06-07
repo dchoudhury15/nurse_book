@@ -1,0 +1,151 @@
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="jumbotron">
+
+      <div class="row">
+        <div class="col-md-4">
+        <h3>
+          <%= @user.username %>
+        </h3>
+        </div>
+        <div class="col-md-6  ">
+        <img src="<%= @user.profile_picture %>" class="img-responsive img-thumbnail img-round">
+        </div>
+      </div>
+      <div class="row">
+
+      </div>
+
+      <% if @user == current_user %>
+
+      <div class="row">
+        <div class="col-md-4">
+          <h5>
+            Pending Friend Request:
+          </h5>
+        </div>
+
+        <div class="col-md-3 col-md-offset-2">
+            <% @user.received_requests.each do |connect| %>
+
+            <% if connect.request_accepted != true %>
+              <!-- true -->
+            <div class="row">
+
+              <form action="/update_connection/<%= connect.id %>" method="post">
+                <!-- Hidden input for authenticity token to protect from forgery -->
+                <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+                <!-- Label and input for sender_id -->
+
+                  <input type="hidden" id="sender_id" name="sender_id" placeholder="Sender" class="form-control" value="<%= connect.sender.id %>">
+
+                  <input type="hidden" id="receiver_id" name="receiver_id" placeholder="Receiver" class="form-control" value="<%= connect.receiver.id %>">
+
+
+                <!-- Label and input for request_accepted -->
+                <input type="hidden" id="request_accepted" name="request_accepted" value="true">
+
+                <button class="btn btn-warning">
+                  Accept following by <%= connect.sender.username %>
+                </button>
+
+              </form>
+
+            </div>
+              <% end %>
+            <% end %>
+        </div>
+
+        </div>
+
+      </div>
+
+      <% end %>
+
+    <div class="row">
+
+    </div>
+
+
+      <div class="row">
+        <div class="col-md-3">
+          <% friend_request = Connection.find_by(:sender_id => current_user.id, :receiver_id => @user.id, :request_accepted => true) %>
+          <% if friend_request.present? && @user != current_user%>
+            <a href="/delete_connection/<%= friend_request.id %>" class="btn btn-success btn-block">
+              Don't Follow
+            </a>
+
+          <% else %>
+            <% friend_request2 = Connection.find_by(:sender_id => current_user.id, :receiver_id => @user.id, :request_accepted => false) %>
+
+            <% if friend_request2.present? %>
+                Follow Request Already Sent
+
+            <% else %>
+
+            <%# @user.friends_where_sender.each do |use| %>
+            <%#= use.username %>
+            <%# end %>
+            <form action="/create_connection" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+              <input type="hidden" id="sender_id" name="sender_id" value="<%= current_user.id %>">
+
+              <input type="hidden" id="receiver_id" name="receiver_id" value="<%= @user.id %>">
+
+              <input type="hidden" id="request_accepted" name="request_accepted" value="false">
+
+
+              <%# else %>
+              <% if @user!= current_user %>
+                <!-- true -->
+                <button class="btn btn-default btn-block">
+                  Follow
+                </button>
+              <% end %>
+
+            </form>
+
+            <% end %>
+          <% end %>
+        </div>
+
+        <div class="col-md-3">
+          <p class="lead">
+          <a href="/my_posts">  <%= @user.posts.count %> </a> posts
+          </p>
+        </div>
+
+        <div class="col-md-3">
+          <% if current_user.present? %>
+            <!-- true -->
+            <p class="lead">
+            <a href="/my_follows">  <%= @user.friends_where_sender.count %> </a> Follow Requests Sent
+            </p>
+          <% end %>
+
+        </div>
+
+        <div class="col-md-3">
+          <p class="lead">
+            <a href="/my_follows"><%= @user.friends_where_sender_accepted.count %></a> Following
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if @user == current_user %>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <a href="/posts/new" class="btn btn-default btn-block">
+      <i class="fa fa-plus"></i>
+    </a>
+
+    <hr>
+  </div>
+</div>
+<% end %>
