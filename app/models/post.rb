@@ -18,5 +18,5 @@ class Post < ApplicationRecord
   validates :user, :presence => true
   validates :body, :presence => true
 
-  default_scope { order("created_at DESC") }
+  default_scope { order("updated_at DESC") }
 end

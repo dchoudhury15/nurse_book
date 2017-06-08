@@ -85,7 +85,7 @@
 
                   <a href="/users/<%= comm.user_id %>">
                     <a href="/users/<%= post.user_id %>">
-                      
+
                         <%= comm.user.username %>
                         </a>
                   <small>
@@ -93,6 +93,12 @@
                   </small>
                 </h6>
                 <%= comm.body %>
+                <% if current_user == comm.user %>
+                  <a href="/delete_comment/<%= comm.id %>" class="btn btn-danger btn-xs" rel="nofollow">
+                    <i class="fa fa-trash-o"></i>
+                  </a>
+                  <!-- true -->
+                <% end %>
               </div>
               <% end %>
           </li>
@@ -125,13 +131,13 @@
                   </div><!-- /input-group -->
 
                   <div class="row">
-                  <div class="col-md-8 col-md-offset-2">
+                  <div class="col-md-4 col-md-offset-4">
                     <% if current_user==post.user %>
-                    <div class="btn-group btn-group-justified">
-                        <a href="/posts/<%= post.id %>/edit" class="btn btn-warning">
+                    <div class="btn-group btn-group-justified btn-xs">
+                        <a href="/posts/<%= post.id %>/edit" class="btn btn-warning btn-xs">
                           <i class="fa fa-edit"></i>
                         </a>
-                        <a href="/delete_post/<%= post.id %>" class="btn btn-danger" rel="nofollow">
+                        <a href="/delete_post/<%= post.id %>" class="btn btn-danger btn-xs" rel="nofollow">
                           <i class="fa fa-trash-o"></i>
                         </a>
 

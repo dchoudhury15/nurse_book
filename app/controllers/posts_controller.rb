@@ -15,7 +15,7 @@ def my_posts
   self_connection.receiver_id = current_user.id
   self_connection.request_accepted = true
   self_connection.save
-  @posts = current_user.timeline_posts
+  @posts = current_user.timeline_posts.order({:updated_at => :desc})
 end
 
   def show
@@ -40,7 +40,7 @@ end
     save_status = @post.save
 
     if save_status == true
-      redirect_to("/posts/#{@post.id}", :notice => "Post created successfully.")
+      redirect_to("/my_posts", :notice => "Post created successfully.")
     else
       render("posts/new.html.erb")
     end
@@ -61,7 +61,7 @@ end
     save_status = @post.save
 
     if save_status == true
-      redirect_to("/posts/#{@post.id}", :notice => "Post updated successfully.")
+      redirect_to("/my_posts", :notice => "Post updated successfully.")
     else
       render("posts/edit.html.erb")
     end

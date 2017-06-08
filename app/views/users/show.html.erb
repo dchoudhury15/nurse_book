@@ -114,7 +114,12 @@
 
         <div class="col-md-3">
           <p class="lead">
-          <a href="/my_posts">  <%= @user.posts.count %> </a> posts
+            <% if current_user==@user %>
+              <!-- true -->
+                  <a href="/my_posts">  <%= @user.posts.count %> </a> posts
+            <% else %>
+          <%= @user.posts.count %> posts
+            <% end %>
           </p>
         </div>
 
@@ -122,7 +127,11 @@
           <% if current_user.present? %>
             <!-- true -->
             <p class="lead">
-            <a href="/my_follows">  <%= @user.friends_where_sender.count %> </a> Follow Requests Sent
+                <% if current_user==@user %>
+            <a href="/my_follows">  <%= @user.friends_where_sender.count-1 %> </a> Follow Requests Sent
+              <% else %>
+              <%= @user.friends_where_sender.count-1 %> Follow Requests Sent
+              <%end%>
             </p>
           <% end %>
 
@@ -130,7 +139,12 @@
 
         <div class="col-md-3">
           <p class="lead">
-            <a href="/my_follows"><%= @user.friends_where_sender_accepted.count %></a> Following
+            <% if current_user==@user %>
+      <a href="/my_follows"><%= @user.friends_where_sender_accepted.count-1 %></a> Following
+          <% else %>
+          <%= @user.friends_where_sender_accepted.count-1 %> Following
+          <%end%>
+
           </p>
         </div>
       </div>
